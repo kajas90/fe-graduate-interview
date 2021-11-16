@@ -4,12 +4,15 @@ import { ReactComponent as Logo } from "./assets/logo.svg";
 import { palette } from "./styles";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import History from "./components/History";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
   const [amount, setAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("");
   const [toCurrency, setToCurrency] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
+  const {data, setData} = useLocalStorage<string[]>('historicalConversions', [])
 
   const convertAmount = async () => {
     const response = await fetch(
@@ -18,6 +21,7 @@ function App() {
 
     const { convertedAmount } = await response.json();
     setConvertedAmount(convertedAmount);
+    setData((currentState: string[]) => [...currentState, convertedAmount])
   };
 
   return (
@@ -47,6 +51,7 @@ function App() {
           <span>{convertedAmount}</span>
         </ConverterContainer>
       </ContentContainer>
+      <History history={data} />
     </div>
   );
 }
