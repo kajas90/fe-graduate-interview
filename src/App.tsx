@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "./assets/logo.svg";
 import { palette } from "./styles";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import History from "./components/History";
+import Select from "./components/Select";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import CurrencyWithRates from "./components/CurrencyWithRates";
 
 function App() {
   const [amount, setAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("");
   const [toCurrency, setToCurrency] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
-  const {data, setData} = useLocalStorage<string[]>('historicalConversions', [])
+  const { data, setData } = useLocalStorage<string[]>(
+    "historicalConversions",
+    []
+  );
 
   const convertAmount = async () => {
     const response = await fetch(
@@ -21,7 +26,7 @@ function App() {
 
     const { convertedAmount } = await response.json();
     setConvertedAmount(convertedAmount);
-    setData((currentState: string[]) => [...currentState, convertedAmount])
+    setData((currentState: string[]) => [...currentState, convertedAmount]);
   };
 
   return (
@@ -37,11 +42,13 @@ function App() {
             onChange={(value) => setAmount(value)}
             value={amount}
           />
+
           <Input
             label="from currency"
             onChange={(value) => setFromCurrency(value)}
-            value={fromCurrency}
+            value={toCurrency}
           />
+
           <Input
             label="to currency"
             onChange={(value) => setToCurrency(value)}
@@ -51,6 +58,7 @@ function App() {
           <span>{convertedAmount}</span>
         </ConverterContainer>
       </ContentContainer>
+      <CurrencyWithRates />
       <History history={data} />
     </div>
   );
