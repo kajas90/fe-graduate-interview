@@ -5,7 +5,6 @@ import { palette } from "./styles";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import History from "./components/History";
-import Select from "./components/Select";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import CurrencyWithRates from "./components/CurrencyWithRates";
 

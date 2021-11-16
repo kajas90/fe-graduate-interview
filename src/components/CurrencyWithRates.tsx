@@ -21,7 +21,7 @@ export default function CurrencyWithRates() {
 
   useEffect(() => {
     fetchCurrencies();
-  });
+  }, []);
 
   useEffect(() => {
     fetchRates();
