@@ -12,7 +12,12 @@ function App() {
   const [convertedAmount, setConvertedAmount] = useState("");
 
   const convertAmount = async () => {
-    console.log("Implement conversion here");
+    const response = await fetch(
+      `http://localhost:3002/convert?from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
+    );
+
+    const { convertedAmount } = await response.json();
+    setConvertedAmount(convertedAmount);
   };
 
   return (
